@@ -35,11 +35,13 @@ describe('users', () => {
       email
     });
   });
-  it.skip('returns current user', async() => {
+  it('returns current user', async() => {
     const [agent, user] = await registerAndLogin();
     const res = await agent.get('/api/v1/users/me');
     expect(res.body).toEqual({
       ...user,
+      exp: expect.any(Number),
+      iat: expect.any(Number)
     });
   });
   it('logs user our', async() => {
