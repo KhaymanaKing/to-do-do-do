@@ -12,7 +12,7 @@ const mockUser = {
 const registerAndLogin = async (userProps = {}) => {
   const password = userProps.password ?? mockUser.password;
   const agent = request.agent(app);
-  const user = await UserService.create({ ...mockUser, userProps });
+  const user = await UserService.create({ ...mockUser, ...userProps });
   const { email } = user;
   await agent
     .post('/api/v1/users/sessions')
@@ -37,9 +37,9 @@ describe('users', () => {
   });
   it('returns current user', async() => {
     const [agent, user] = await registerAndLogin();
-    const res = await agent.get('api/v1/users/me');
+    const res = await agent.get('/api/v1/users/me');
     expect(res.body).toEqual({
-      ...user
+      ...user,
     });
   });
 
