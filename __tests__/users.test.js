@@ -5,13 +5,15 @@ const app = require('../lib/app');
 
 const mockUser = {
   email: 'wow@test.com',
-  password: '123456'
+  password: '123456789'
 };
 
-describe('backend-express-template routes', () => {
+
+describe('users', () => {
   beforeEach(() => {
     return setup(pool);
   });
+  
   it('creates a user', async() => {
     const res = await request(app)
       .post('/api/v1/users')
