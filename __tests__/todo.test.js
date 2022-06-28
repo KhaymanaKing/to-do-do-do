@@ -31,9 +31,9 @@ describe('todos', () => {
   });
   it('creates a new to do for current user', async() => {
     const [agent] = await registerAndLogin();
-    const newTodo = { todo: 'Yell' };
+    const newTodo = { todo: 'Yell', };
     const res = await agent
-      .post('/api/v1/to-dos')
+      .post('/api/v1/todos')
       .send(newTodo);
     expect(res.status).toEqual(200);
   });
