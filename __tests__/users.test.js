@@ -35,12 +35,17 @@ describe('users', () => {
       email
     });
   });
-  it('returns current user', async() => {
+  it.skip('returns current user', async() => {
     const [agent, user] = await registerAndLogin();
     const res = await agent.get('/api/v1/users/me');
     expect(res.body).toEqual({
       ...user,
     });
+  });
+  it('logs user our', async() => {
+    const [agent] = await registerAndLogin();
+    const res = await agent.delete('/api/v1/users/sessions');
+    expect(res.status).toBe(204);
   });
 
   afterAll(() => {
