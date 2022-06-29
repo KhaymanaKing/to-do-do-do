@@ -52,6 +52,10 @@ describe('todos', () => {
     expect(res.status).toEqual(200);
     expect(res.body).toEqual([user1Todo]);
   });
+  it('returens a 401 for non authenticated users', async() => {
+    const res = await request(app).get('/api/v1/todos');
+    expect(res.status).toBe(401);
+  });
 
 });
 
