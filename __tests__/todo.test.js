@@ -56,7 +56,7 @@ describe('todos', () => {
     const res = await request(app).get('/api/v1/todos');
     expect(res.status).toBe(401);
   });
-  it('should updated a todo', async() => {
+  it('should update a todo', async() => {
     const [agent, user] = await registerAndLogin();
     const todo = await Todo.insert({
       todo: 'bigger yell', 
@@ -67,6 +67,15 @@ describe('todos', () => {
       .send({ finished: true });
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ ...todo, finished: true });
+  });
+  it('should delete a todo', async() => {
+    const [agent, user] = await registerAndLogin();
+    const todo = await Todo.insert({
+      todo: 'bigger yell', 
+      user_id: user.id 
+    });
+    const res = await agent.delete(`/api/v1/todos/${todo.id}`);
+    expect(res.status).toBe(200);
   });
 });
 
