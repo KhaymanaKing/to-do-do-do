@@ -38,7 +38,7 @@ describe('todos', () => {
       .send(newTodo);
     expect(res.status).toEqual(200);
   });
-  it(' gets all items associated with the authenticated user', async () => {
+  it(' gets all todos associated with the authenticated user', async () => {
     const [agent, user] = await registerAndLogin();
     const user2 = await UserService.create(mockUser2);
     const user1Todo = await Todo.insert({ 
@@ -52,11 +52,22 @@ describe('todos', () => {
     expect(res.status).toEqual(200);
     expect(res.body).toEqual([user1Todo]);
   });
-  it('returens a 401 for non authenticated users', async() => {
+  it('returns a 401 for non authenticated users', async() => {
     const res = await request(app).get('/api/v1/todos');
     expect(res.status).toBe(401);
   });
-
+  it('should updated a todo', async() => {
+    const [agent, user] = await registerAndLogin();
+    const todo = await Todo.insert({
+      todo: 'bigger yell', 
+      user_id: user.id 
+    });
+    const res = await agent
+      .put(`/api/v1/todos/${todo.id}`)
+      .send({ finished: true });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ ...todo, finished: true });
+  });
 });
 
 
